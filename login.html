@@ -27,7 +27,7 @@
 
             if (allowedDomains.includes(domain)) {
                 setCookie("auth", "true", 24); // Set cookie for 24 hours
-                //window.location.href = "index.html"; // Redirect to index
+                window.location.href = "index.html"; // Redirect to index
             } else {
                 alert("Email domain not allowed.");
             }
