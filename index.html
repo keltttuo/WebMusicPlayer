@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <title>Web Music Player</title>
     <link rel="stylesheet" href="styles.css">
+
+    <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        window.onload = function () {
+            const authCookie = getCookie("auth");
+            console.log("Auth cookie:", authCookie); // Debug log
+
+            if (!authCookie) {
+                //window.location.href = "login.html";
+                console.log("Auth cookie not found. Directing to login..."); // Debug log
+            }
+        };
+    </script>
+
+
+
+
 </head>
 <body>
     <!-- Global Controls -->
@@ -50,7 +72,7 @@
 
     <!-- Relaxing Video Section -->
     <section class="video-section">
-        <video width="100%" controls autoplay muted loop>
+        <video controls autoplay muted loop>
             <source src="relaxing-video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -59,3 +81,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+

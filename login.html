@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+
+    <script>
+        // Whitelisted domains
+        const allowedDomains = ["example.com", "mycompany.org", "trusted.net"];
+
+        function setCookie(name, value, hours) {
+            const d = new Date();
+            d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = `${name}=${value}; ${expires}; path=/`;
+            console.log("Cookie set:", document.cookie); // Debug log
+        }
+
+        function handleLogin() {
+            const email = document.getElementById("email").value.trim();
+            const domain = email.split("@")[1]?.toLowerCase();
+
+            //console.log("Entered email:", email);
+            //console.log("Extracted domain:", domain);
+
+            if (allowedDomains.includes(domain)) {
+                setCookie("auth", "true", 24); // Set cookie for 24 hours
+                //window.location.href = "index.html"; // Redirect to index
+            } else {
+                alert("Email domain not allowed.");
+            }
+        }
+    </script>
+
+
+
+
+</head>
+<body>
+    <h2>Login</h2>
+    <!--<input type="email" id="email" placeholder="Enter your email" required>
+    <button onclick="handleLogin()">Login</button>-->
+
+    <form onsubmit="event.preventDefault(); handleLogin();">
+        <input type="email" id="email" placeholder="Enter your email" required />
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+</html>
