@@ -1,62 +1,92 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-
-
-    <script>
-        // Whitelisted domains
-        let allowedDomains = [];
-
-
-        // Fetch the whitelist from Netlify function
-        fetch("/.netlify/functions/get-domains")
-            .then(res => res.json())
-            .then(domains => {
-                allowedDomains = domains.map(d => d.toLowerCase());
-                console.log("Allowed domains:", allowedDomains);
-            });
-
-
-        function setCookie(name, value, hours) {
-            const d = new Date();
-            d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = `${name}=${value}; ${expires}; path=/`;
-            console.log("Cookie set:", document.cookie); // Debug log
-        }
-
-        function handleLogin() {
-            const email = document.getElementById("email").value.trim();
-            const domain = email.split("@")[1]?.toLowerCase();
-
-            //console.log("Entered email:", email);
-            //console.log("Extracted domain:", domain);
-
-            if (allowedDomains.includes(domain)) {
-                setCookie("auth", "true", 24); // Set cookie for 24 hours
-                window.location.href = "index.html"; // Redirect to index
-            } else {
-                alert("Email domain not allowed.");
-            }
-        }
-    </script>
-
-
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-card {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .login-card h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    .login-card input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .login-card button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .login-card button:hover {
+      background-color: #005fa3;
+    }
+  </style>
 </head>
 <body>
+  <div class="login-card">
     <h2>Login</h2>
-    <!--<input type="email" id="email" placeholder="Enter your email" required>
-    <button onclick="handleLogin()">Login</button>-->
-
     <form onsubmit="event.preventDefault(); handleLogin();">
-        <input type="email" id="email" placeholder="Enter your email" required />
-        <button type="submit">Login</button>
+      <input type="email" id="email" placeholder="Enter your email" required />
+      <button type="submit">Login</button>
     </form>
+  </div>
 
+  <script>
+    let allowedDomains = [];
+
+    fetch("/.netlify/functions/get-domains")
+      .then(res => res.json())
+      .then(domains => {
+        allowedDomains = domains.map(d => d.toLowerCase());
+      });
+
+    function setCookie(name, value, hours) {
+      const d = new Date();
+      d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+      const expires = "expires=" + d.toUTCString();
+      document.cookie = `${name}=${value}; ${expires}; path=/`;
+    }
+
+    function handleLogin() {
+      const email = document.getElementById("email").value.trim();
+      const domain = email.split("@")[1]?.toLowerCase();
+
+      if (allowedDomains.includes(domain)) {
+        setCookie("auth", "true", 24);
+        window.location.href = "index.html";
+      } else {
+        alert("Email domain not allowed.");
+      }
+    }
+  </script>
 </body>
 </html>
