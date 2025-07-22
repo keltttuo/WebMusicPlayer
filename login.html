@@ -77,16 +77,30 @@
     }
 
     function handleLogin() {
-      const email = document.getElementById("email").value.trim();
-      const domain = email.split("@")[1]?.toLowerCase();
+          const email = document.getElementById("email").value.trim();
+          const domain = email.split("@")[1]?.toLowerCase();
 
-      if (allowedDomains.includes(domain)) {
-        setCookie("auth", "true", 24);
-        window.location.href = "index.html";
-      } else {
-        alert("Email domain not allowed.");
+          if (allowedDomains.includes(domain)) {
+              setCookie("auth", "true", 24);
+              logUsage();
+              window.location.href = "index.html";
+          } else {
+              alert("Access Denied. Domain not allowed.");
+          }
       }
+    
+
+    function logUsage() {
+        fetch('/.netlify/functions/log-usage', {
+            method: 'POST',
+            body: JSON.stringify({
+                domain: userEmail.split('@')[1],
+                feature: 'ambient-sound-toggle',
+            }),
+        });
     }
+
+
   </script>
 </body>
 </html>
