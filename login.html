@@ -94,7 +94,9 @@
         fetch('/.netlify/functions/log-usage', {
             method: 'POST',
             body: JSON.stringify({
-                domain: domain;
+                domain: domain,
+                feature: 'login',
+                time: Date.getTime().toUTCString(),
             }),
         });
     }
