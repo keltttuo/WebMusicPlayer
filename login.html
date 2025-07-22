@@ -8,7 +8,17 @@
 
     <script>
         // Whitelisted domains
-        const allowedDomains = ["example.com", "mycompany.org", "trusted.net"];
+        let allowedDomains = [];
+
+
+        // Fetch the whitelist from Netlify function
+        fetch("/.netlify/functions/get-domains")
+            .then(res => res.json())
+            .then(domains => {
+                allowedDomains = domains.map(d => d.toLowerCase());
+                console.log("Allowed domains:", allowedDomains);
+            });
+
 
         function setCookie(name, value, hours) {
             const d = new Date();
