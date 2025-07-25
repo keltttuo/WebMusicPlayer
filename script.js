@@ -13,6 +13,11 @@ const audios = {
     }
 };
 
+const mainPlayButton = document.getElementById('main-play');
+const ambientPlayButton = document.getElementById('ambient-play');
+togglePlayState(mainPlayButton, false);
+togglePlayState(ambientPlayButton, false);
+
 // Enable looping for all audio tracks
 document.getElementById('audio-study').loop = true;
 document.getElementById('audio-focus').loop = true;
@@ -23,6 +28,7 @@ document.getElementById('audio-rain').loop = true;
 
 // Get reference to video element
 const relaxingVideo = document.querySelector('.video-section video');
+relaxingVideo.pause();
 
 // Track last played
 let lastMain = null;
@@ -57,6 +63,7 @@ document.querySelector('.main-playlist .playlist-buttons').addEventListener('cli
         audios.main[id].play();
         lastMain = id;
         updateVideoPlayback();
+        togglePlayState(mainPlayButton, true);
     }
 });
 
@@ -68,6 +75,7 @@ document.querySelector('.ambient-playlist .playlist-buttons').addEventListener('
         audios.ambient[id].play();
         lastAmbient = id;
         updateVideoPlayback();
+        togglePlayState(ambientPlayButton, true);
     }
 });
 
@@ -93,36 +101,75 @@ document.getElementById('ambient-volume').addEventListener('input', () => {
 
 // Global Play
 document.getElementById('global-play').addEventListener('click', () => {
-    if (lastMain) audios.main[lastMain].play();
-    if (lastAmbient) audios.ambient[lastAmbient].play();
-    updateVideoPlayback();
+    if (lastMain) 
+    {
+        audios.main[lastMain].play();
+        togglePlayState(mainPlayButton, true);
+        updateVideoPlayback();
+    }
+    if (lastAmbient) 
+    {
+        audios.ambient[lastAmbient].play();
+        togglePlayState(ambientPlayButton, true);
+        updateVideoPlayback();
+    }
+    
+    
+    
+
 });
 
 // Global Pause
 document.getElementById('global-pause').addEventListener('click', () => {
-    if (lastMain) audios.main[lastMain].pause();
-    if (lastAmbient) audios.ambient[lastAmbient].pause();
-    updateVideoPlayback();
+    if (lastMain) {
+        audios.main[lastMain].pause();
+        togglePlayState(mainPlayButton, false);
+        updateVideoPlayback();
+    }
+        
+    if (lastAmbient) {
+        audios.ambient[lastAmbient].pause();
+        togglePlayState(ambientPlayButton, false);
+        updateVideoPlayback();
+    }
+        
+    
 });
 
 // Main controls
 document.getElementById('main-play').addEventListener('click', () => {
-    if (lastMain) audios.main[lastMain].play();
-    updateVideoPlayback();
+    if (lastMain) {
+        audios.main[lastMain].play();
+        updateVideoPlayback();
+        togglePlayState(mainPlayButton, true);
+    }
+        
 });
 document.getElementById('main-pause').addEventListener('click', () => {
-    if (lastMain) audios.main[lastMain].pause();
-    updateVideoPlayback();
+    if (lastMain) {
+        audios.main[lastMain].pause();
+        updateVideoPlayback();
+        togglePlayState(mainPlayButton, false);
+    }
+        
 });
 
 // Ambient controls
 document.getElementById('ambient-play').addEventListener('click', () => {
-    if (lastAmbient) audios.ambient[lastAmbient].play();
-    updateVideoPlayback();
+    if (lastAmbient) {
+        audios.ambient[lastAmbient].play();
+        updateVideoPlayback();
+        togglePlayState(ambientPlayButton, true);
+    }
+        
 });
 document.getElementById('ambient-pause').addEventListener('click', () => {
-    if (lastAmbient) audios.ambient[lastAmbient].pause();
-    updateVideoPlayback();
+    if (lastAmbient) {
+        audios.ambient[lastAmbient].pause();
+        updateVideoPlayback();
+        togglePlayState(ambientPlayButton, false);
+    }
+        
 });
 
 
@@ -144,6 +191,14 @@ function updateVideoPlayback() {
         relaxingVideo.play();
     } else {
         relaxingVideo.pause();
+    }
+}
+
+function togglePlayState(button, isPlaying) {
+    if (isPlaying) {
+        button.classList.add('playing');
+    } else {
+        button.classList.remove('playing');
     }
 }
 

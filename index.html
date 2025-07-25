@@ -17,7 +17,7 @@
             console.log("Auth cookie:", authCookie); // Debug log
 
             if (!authCookie) {
-                window.location.href = "login.html";
+                //window.location.href = "login.html";
                 console.log("Auth cookie not found. Directing to login..."); // Debug log
             }
         };
@@ -27,8 +27,8 @@
 <body>
     <!-- Global Controls -->
     <header class="global-controls">
-        <button id="global-play">Global Play</button>
-        <button id="global-pause">Global Pause</button>
+        <button id="global-play" class="play"><i class="fas fa-play"></i> Play All</button>
+        <button id="global-pause" class="pause"><i class="fas fa-pause"></i> Pause All</button>
     </header>
 
     <!-- Main Playlist Section -->
@@ -41,8 +41,8 @@
         </div>
         <div class="controls">
             <label>Volume: <input type="range" id="main-volume" min="0" max="1" step="0.01" value="0.25"></label>
-            <button id="main-play">Play</button>
-            <button id="main-pause">Pause</button>
+            <button id="main-play" class="play playing"><i class="fas fa-play"></i> Play</button>
+            <button id="main-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
         </div>
         <audio id="audio-study" src="audio/study.mp3"></audio>
         <audio id="audio-focus" src="audio/focus.mp3"></audio>
@@ -59,8 +59,8 @@
         </div>
         <div class="controls">
             <label>Volume: <input type="range" id="ambient-volume" min="0" max="1" step="0.01" value="0.5"></label>
-            <button id="ambient-play">Play</button>
-            <button id="ambient-pause">Pause</button>
+            <button id="ambient-play" class="play playing"><i class="fas fa-play"></i> Play</button>
+            <button id="ambient-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
         </div>
         <audio id="audio-nature" src="audio/nature.mp3"></audio>
         <audio id="audio-waterflow" src="audio/water.mp3"></audio>

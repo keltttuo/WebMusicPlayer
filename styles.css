@@ -22,19 +22,40 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-    .global-controls button {
-        padding: 0.5rem 1rem;
+    .global-controls button.play {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
         font-size: 1rem;
         border: none;
-        background-color: #0077cc;
-        color: white;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-        .global-controls button:hover {
-            background-color: #005fa3;
-        }
+    .global-controls button.pause {
+        background: linear-gradient(135deg, #e53935, #b71c1c);
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .global-controls button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .global-controls button:active {
+        transform: scale(0.98);
+    }
 
 /* Section Styles */
 section {
@@ -47,6 +68,7 @@ section {
 }
 
 /* Playlist Buttons */
+
 .playlist-buttons {
     display: flex;
     gap: 1rem;
@@ -55,30 +77,39 @@ section {
 
     .playlist-buttons button {
         flex: 1;
-        padding: 0.75rem;
+        padding: 0.75rem 1.25rem;
         font-size: 1rem;
-        border: 1px solid #ccc;
-        background-color: #e0f0ff;
-        border-radius: 5px;
+        font-weight: 600;
+        border: none;
+        background: linear-gradient(135deg, #6ec1e4, #2980b9);
+        color: white;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
         .playlist-buttons button:hover {
-            background-color: #cce7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .playlist-buttons button:active {
+            transform: scale(0.98);
         }
 
         .playlist-buttons button.playing {
-            background-color: #4caf50;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
             color: white;
-            border: 2px solid #388e3c;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+            box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+            border: none;
         }
+
 
 /* Controls */
 .controls {
     display: flex;
-    align-items: center;
+    align-items: end;
     gap: 1rem;
     flex-wrap: wrap;
 }
@@ -88,22 +119,79 @@ section {
     }
 
     .controls input[type="range"] {
-        width: 100%;
+        flex: 1;
+        min-width: 200px; /* Optional: ensures it doesn't get too small */
+        width: 90%;
     }
 
-    .controls button {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-        border: none;
-        background-color: #28a745;
+    .controls button.play {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
         color: white;
-        border-radius: 5px;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
         cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-        .controls button:hover {
-            background-color: #218838;
-        }
+    .controls button.pause {
+        background: linear-gradient(135deg, #e53935, #b71c1c);
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .controls button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .controls button:active {
+        transform: scale(0.98);
+    }
+
+    .controls button.playing::after {
+        content: '';
+        display: inline-block;
+        margin-left: 8px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: limegreen;
+        box-shadow: 0 0 8px limegreen;
+        animation: pulse 1s infinite;
+    }
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
+
+
 
 /* Video Section */
 .video-section {
