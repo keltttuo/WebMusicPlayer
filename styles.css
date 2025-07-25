@@ -23,6 +23,7 @@ body {
 }
 
     .global-controls button.play {
+        width: 120px;
         background: linear-gradient(135deg, #4caf50, #2e7d32);
         color: white;
         font-weight: 600;
@@ -36,6 +37,7 @@ body {
     }
 
     .global-controls button.pause {
+        width: 120px;
         background: linear-gradient(135deg, #e53935, #b71c1c);
         color: white;
         font-weight: 600;
@@ -125,6 +127,7 @@ section {
     }
 
     .controls button.play {
+        width: 100px;
         background: linear-gradient(135deg, #4caf50, #2e7d32);
         color: white;
         font-weight: 600;
@@ -138,6 +141,7 @@ section {
     }
 
     .controls button.pause {
+        width: 100px;
         background: linear-gradient(135deg, #e53935, #b71c1c);
         color: white;
         font-weight: 600;
