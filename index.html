@@ -4,25 +4,7 @@
     <meta charset="UTF-8">
     <title>Web Music Player</title>
     <link rel="stylesheet" href="styles.css">
-
-    <script>
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-        window.onload = function () {
-            const authCookie = getCookie("auth");
-            console.log("Auth cookie:", authCookie); // Debug log
-
-            if (!authCookie) {
-                window.location.href = "login.html";
-                console.log("Auth cookie not found. Directing to login..."); // Debug log
-            }
-        };
-    </script>
-
+    <script src="auth.js"></script>
 </head>
 <body>
     <!-- Global Controls -->
@@ -41,7 +23,7 @@
         </div>
         <div class="controls">
             <label>Volume: <input type="range" id="main-volume" min="0" max="1" step="0.01" value="0.25"></label>
-            <button id="main-play" class="play playing"><i class="fas fa-play"></i> Play</button>
+            <button id="main-play" class="play"><i class="fas fa-play"></i> Play</button>
             <button id="main-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
         </div>
         <audio id="audio-study" src="audio/study.mp3"></audio>
@@ -59,7 +41,7 @@
         </div>
         <div class="controls">
             <label>Volume: <input type="range" id="ambient-volume" min="0" max="1" step="0.01" value="0.5"></label>
-            <button id="ambient-play" class="play playing"><i class="fas fa-play"></i> Play</button>
+            <button id="ambient-play" class="play"><i class="fas fa-play"></i> Play</button>
             <button id="ambient-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
         </div>
         <audio id="audio-nature" src="audio/nature.mp3"></audio>
@@ -77,4 +59,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
