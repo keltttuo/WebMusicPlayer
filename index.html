@@ -2,59 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Web Music Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Player</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="auth.js"></script>
 </head>
 <body>
+
     <!-- Global Controls -->
     <header class="global-controls">
-        <button id="global-play" class="play"><i class="fas fa-play"></i> Play All</button>
-        <button id="global-pause" class="pause"><i class="fas fa-pause"></i> Pause All</button>
+        <span class="app-title"><i class="fas fa-headphones"></i> Focus Player</span>
+        <div class="global-buttons">
+            <button id="global-play" class="btn-play"><i class="fas fa-play"></i> Play All</button>
+            <button id="global-pause" class="btn-pause"><i class="fas fa-pause"></i> Pause All</button>
+        </div>
     </header>
 
-    <!-- Main Playlist Section -->
-    <section class="main-playlist">
-        <h2>Main Playlists</h2>
-        <div class="playlist-buttons">
-            <button>Study</button>
-            <button>Focus</button>
-            <button>Relax</button>
-        </div>
-        <div class="controls">
-            <label>Volume: <input type="range" id="main-volume" min="0" max="1" step="0.01" value="0.25"></label>
-            <button id="main-play" class="play"><i class="fas fa-play"></i> Play</button>
-            <button id="main-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
-        </div>
-        <audio id="audio-study" src="audio/study.mp3"></audio>
-        <audio id="audio-focus" src="audio/focus.mp3"></audio>
-        <audio id="audio-relax" src="audio/relax.mp3"></audio>
-    </section>
+    <main class="app-layout">
 
-    <!-- Ambient Playlist Section -->
-    <section class="ambient-playlist">
-        <h2>Ambient Sounds</h2>
-        <div class="playlist-buttons">
-            <button>Nature</button>
-            <button>Water Flow</button>
-            <button>Rain</button>
-        </div>
-        <div class="controls">
-            <label>Volume: <input type="range" id="ambient-volume" min="0" max="1" step="0.01" value="0.5"></label>
-            <button id="ambient-play" class="play"><i class="fas fa-play"></i> Play</button>
-            <button id="ambient-pause" class="pause"><i class="fas fa-pause"></i> Pause</button>
-        </div>
-        <audio id="audio-nature" src="audio/nature.mp3"></audio>
-        <audio id="audio-waterflow" src="audio/water.mp3"></audio>
-        <audio id="audio-rain" src="audio/rain.mp3"></audio>
-    </section>
+        <!-- Main Playlist Section -->
+        <section class="panel main-playlist">
+            <div class="panel-header">
+                <h2>Main Playlist</h2>
+                <div class="section-controls">
+                    <button id="main-play" class="btn-play"><i class="fas fa-play"></i> Play</button>
+                    <button id="main-pause" class="btn-pause"><i class="fas fa-pause"></i> Pause</button>
+                </div>
+            </div>
 
-    <!-- Relaxing Video Section -->
-    <section class="video-section">
-        <video controls autoplay muted loop>
+            <div class="track-cards">
+                <button class="track-card" data-track="study">
+                    <img src="study.png" alt="Study">
+                    <div class="track-info">
+                        <span class="track-name">Study</span>
+                        <span class="track-desc">Deep concentration</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+                <button class="track-card" data-track="focus">
+                    <img src="focus.png" alt="Focus">
+                    <div class="track-info">
+                        <span class="track-name">Focus</span>
+                        <span class="track-desc">Laser sharp attention</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+                <button class="track-card" data-track="relax">
+                    <img src="relax.png" alt="Relax">
+                    <div class="track-info">
+                        <span class="track-name">Relax</span>
+                        <span class="track-desc">Calm & unwind</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+            </div>
+
+            <div class="volume-row">
+                <i class="fas fa-volume-low"></i>
+                <input type="range" id="main-volume" min="0" max="1" step="0.01" value="0.25">
+                <i class="fas fa-volume-high"></i>
+            </div>
+
+            <audio id="audio-study" src="audio/study.mp3"></audio>
+            <audio id="audio-focus" src="audio/focus.mp3"></audio>
+            <audio id="audio-relax" src="audio/relax.mp3"></audio>
+        </section>
+
+        <!-- Ambient Playlist Section -->
+        <section class="panel ambient-playlist">
+            <div class="panel-header">
+                <h2>Ambient Sounds</h2>
+                <div class="section-controls">
+                    <button id="ambient-play" class="btn-play"><i class="fas fa-play"></i> Play</button>
+                    <button id="ambient-pause" class="btn-pause"><i class="fas fa-pause"></i> Pause</button>
+                </div>
+            </div>
+
+            <div class="track-cards">
+                <button class="track-card" data-track="nature">
+                    <div class="track-icon"><i class="fas fa-tree"></i></div>
+                    <div class="track-info">
+                        <span class="track-name">Nature</span>
+                        <span class="track-desc">Birds & breeze</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+                <button class="track-card" data-track="waterflow">
+                    <div class="track-icon"><i class="fas fa-water"></i></div>
+                    <div class="track-info">
+                        <span class="track-name">Water Flow</span>
+                        <span class="track-desc">Gentle stream</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+                <button class="track-card" data-track="rain">
+                    <div class="track-icon"><i class="fas fa-cloud-rain"></i></div>
+                    <div class="track-info">
+                        <span class="track-name">Rain</span>
+                        <span class="track-desc">Soft rainfall</span>
+                    </div>
+                    <span class="now-playing-badge"><i class="fas fa-music"></i></span>
+                </button>
+            </div>
+
+            <div class="volume-row">
+                <i class="fas fa-volume-low"></i>
+                <input type="range" id="ambient-volume" min="0" max="1" step="0.01" value="0.5">
+                <i class="fas fa-volume-high"></i>
+            </div>
+
+            <audio id="audio-nature" src="audio/nature.mp3"></audio>
+            <audio id="audio-waterflow" src="audio/water.mp3"></audio>
+            <audio id="audio-rain" src="audio/rain.mp3"></audio>
+        </section>
+
+    </main>
+
+    <!-- Video Section -->
+    <div class="video-wrapper">
+        <video id="bg-video" muted loop playsinline>
             <source src="relaxing-video.mp4" type="video/mp4">
         </video>
-    </section>
+        <div class="video-overlay">
+            <button id="video-toggle" class="video-btn"><i class="fas fa-pause"></i></button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

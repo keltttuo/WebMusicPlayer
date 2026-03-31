@@ -1,214 +1,356 @@
-/* General Styles */
-body {
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    padding: 0;
 }
 
-/* Global Controls */
+:root {
+    --accent:       #6c63ff;
+    --accent-dark:  #4b44cc;
+    --accent-glow:  rgba(108, 99, 255, 0.35);
+    --bg:           #12121a;
+    --surface:      #1c1c28;
+    --surface-2:    #25253a;
+    --border:       rgba(255,255,255,0.07);
+    --text:         #e8e8f0;
+    --text-muted:   #7b7b9a;
+    --green:        #4caf50;
+    --green-dark:   #2e7d32;
+    --red:          #e53935;
+    --red-dark:     #b71c1c;
+    --radius:       12px;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* ── Global Header ────────────────────────────────────────── */
 .global-controls {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #ffffffcc;
-    backdrop-filter: blur(5px);
+    z-index: 100;
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 2rem;
+    background: rgba(18, 18, 26, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
 }
 
-    .global-controls button.play {
-        width: 120px;
-        background: linear-gradient(135deg, #4caf50, #2e7d32);
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .global-controls button.pause {
-        width: 120px;
-        background: linear-gradient(135deg, #e53935, #b71c1c);
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .global-controls button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .global-controls button:active {
-        transform: scale(0.98);
-    }
-
-/* Section Styles */
-section {
-    margin: 6rem auto 2rem auto;
-    max-width: 800px;
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* Playlist Buttons */
-.playlist-buttons {
+.app-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    align-items: center;
+    gap: 0.6rem;
 }
 
-    .playlist-buttons button {
-        flex: 1;
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        font-weight: 600;
-        border: none;
-        background: linear-gradient(135deg, #6ec1e4, #2980b9);
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.app-title i {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
 
-        .playlist-buttons button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .playlist-buttons button:active {
-            transform: scale(0.98);
-        }
-
-        .playlist-buttons button.playing {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-            color: white;
-            box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
-            border: none;
-        }
-
-
-/* Controls */
-.controls {
+.global-buttons {
     display: flex;
-    align-items: end;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
-    .controls label {
-        flex: 1;
-    }
+/* ── Shared Button Styles ─────────────────────────────────── */
+.btn-play, .btn-pause {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
 
-    .controls input[type="range"] {
-        flex: 1;
-        min-width: 200px;
-        width: 90%;
-    }
+.btn-play {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(76, 175, 80, 0.3);
+}
 
-    .controls button.play {
-        width: 100px;
-        background: linear-gradient(135deg, #4caf50, #2e7d32);
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.btn-pause {
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(229, 57, 53, 0.3);
+}
 
-    .controls button.pause {
-        width: 100px;
-        background: linear-gradient(135deg, #e53935, #b71c1c);
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.btn-play:hover, .btn-pause:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
 
-    .controls button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
+.btn-play:active, .btn-pause:active {
+    transform: scale(0.97);
+}
 
-    .controls button:active {
-        transform: scale(0.98);
-    }
-
-    .controls button.playing::after {
-        content: '';
-        display: inline-block;
-        margin-left: 8px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: limegreen;
-        box-shadow: 0 0 8px limegreen;
-        animation: pulse 1s infinite;
-    }
+/* Active/playing indicator on section play buttons */
+.btn-play.playing::after {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: limegreen;
+    box-shadow: 0 0 6px limegreen;
+    animation: pulse 1.2s infinite;
+}
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    50% {
-        transform: scale(1.5);
-        opacity: 0.6;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.6); opacity: 0.5; }
 }
 
+/* ── Main Layout ──────────────────────────────────────────── */
+.app-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 5.5rem auto 2rem auto;
+    padding: 0 1.5rem;
+}
 
-/* Video Section */
-.video-section {
+/* ── Panel ────────────────────────────────────────────────── */
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-header h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.section-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ── Track Cards ──────────────────────────────────────────── */
+.track-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.track-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     width: 100%;
-    margin: 2rem auto;
-    max-width: 800px;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
-    .video-section video {
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+.track-card:hover {
+    background: var(--surface-2);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
 
-/* Login Page */
+.track-card.playing {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 0 16px var(--accent-glow);
+    background: rgba(108, 99, 255, 0.08);
+}
+
+/* Thumbnail image (main playlist) */
+.track-card img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+/* Icon placeholder (ambient playlist) */
+.track-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.track-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.track-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* Now-playing badge (hidden by default, shown when .playing) */
+.now-playing-badge {
+    display: none;
+    font-size: 0.7rem;
+    color: var(--accent);
+    animation: pulse 1.2s infinite;
+}
+
+.track-card.playing .now-playing-badge {
+    display: inline-flex;
+}
+
+/* ── Volume Row ───────────────────────────────────────────── */
+.volume-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.volume-row input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-2);
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent-glow);
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.volume-row input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+}
+
+.volume-row input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+}
+
+/* ── Video Section ────────────────────────────────────────── */
+.video-wrapper {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto 2.5rem auto;
+    padding: 0 1.5rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.video-wrapper video {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0 1.5rem;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 40%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.video-wrapper:hover .video-overlay {
+    opacity: 1;
+}
+
+.video-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.video-btn:hover {
+    background: rgba(255,255,255,0.28);
+}
+
+/* ── Login Page ───────────────────────────────────────────── */
 body.login-page {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,52 +358,77 @@ body.login-page {
 }
 
 .login-card {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    max-width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    max-width: 380px;
     width: 100%;
     text-align: center;
 }
 
-    .login-card h2 {
-        margin-bottom: 1.5rem;
-        color: #333;
+.login-card h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.login-card input[type="email"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: var(--surface-2);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.login-card input[type="email"]:focus {
+    border-color: var(--accent);
+}
+
+.login-card button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.login-card button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 680px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+        margin-top: 5rem;
     }
 
-    .login-card input[type="email"] {
-        width: 100%;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
-        box-sizing: border-box;
+    .global-controls {
+        padding: 0.75rem 1rem;
     }
 
-    .login-card button {
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        background-color: #0077cc;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+    .app-title {
+        font-size: 0.95rem;
     }
 
-    .login-card button:hover {
-        background-color: #005fa3;
-    }
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .playlist-buttons {
-        flex-direction: column;
-    }
-
-    .controls {
-        flex-direction: column;
-        align-items: stretch;
+    .video-wrapper {
+        padding: 0 1rem;
     }
 }

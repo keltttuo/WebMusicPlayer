@@ -1,89 +1,102 @@
-// Get references to audio elements
+// ── Audio elements ────────────────────────────────────────────
 const audios = {
     main: {
-        study: document.getElementById('audio-study'),
-        focus: document.getElementById('audio-focus'),
-        relax: document.getElementById('audio-relax')
+        study:  document.getElementById('audio-study'),
+        focus:  document.getElementById('audio-focus'),
+        relax:  document.getElementById('audio-relax')
     },
     ambient: {
-        nature: document.getElementById('audio-nature'),
+        nature:    document.getElementById('audio-nature'),
         waterflow: document.getElementById('audio-waterflow'),
-        rain: document.getElementById('audio-rain')
+        rain:      document.getElementById('audio-rain')
     }
 };
 
-const mainPlayButton = document.getElementById('main-play');
+// ── Button references ─────────────────────────────────────────
+const mainPlayButton    = document.getElementById('main-play');
 const ambientPlayButton = document.getElementById('ambient-play');
-togglePlayState(mainPlayButton, false);
-togglePlayState(ambientPlayButton, false);
 
-// Enable looping for all audio tracks
+// ── Enable looping for all tracks ────────────────────────────
 Object.values(audios.main).concat(Object.values(audios.ambient))
     .forEach(audio => audio.loop = true);
 
-// Get reference to video element
-const relaxingVideo = document.querySelector('.video-section video');
+// ── Video setup ───────────────────────────────────────────────
+const relaxingVideo = document.getElementById('bg-video');
 relaxingVideo.pause();
 
-// Default to first track in each playlist so Play All works from the start
-let lastMain = Object.keys(audios.main)[0];
+const videoToggleBtn = document.getElementById('video-toggle');
+let videoManuallyPaused = false;
+
+videoToggleBtn.addEventListener('click', () => {
+    if (relaxingVideo.paused) {
+        relaxingVideo.play();
+        videoManuallyPaused = false;
+        videoToggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    } else {
+        relaxingVideo.pause();
+        videoManuallyPaused = true;
+        videoToggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+    }
+});
+
+// ── Default to first track in each playlist ───────────────────
+let lastMain    = Object.keys(audios.main)[0];
 let lastAmbient = Object.keys(audios.ambient)[0];
 
-// Highlight the default selected buttons
-document.querySelector('.main-playlist .playlist-buttons button').classList.add('playing');
-document.querySelector('.ambient-playlist .playlist-buttons button').classList.add('playing');
+// Highlight default track cards
+document.querySelector('.main-playlist .track-card').classList.add('playing');
+document.querySelector('.ambient-playlist .track-card').classList.add('playing');
+
+// Init play button states (nothing is playing yet)
+togglePlayState(mainPlayButton, false);
+togglePlayState(ambientPlayButton, false);
 
 
-// Add event listeners to main playlist buttons (highlight selected)
-document.querySelectorAll('.main-playlist .playlist-buttons button').forEach(button => {
-    button.addEventListener('click', () => {
-        clearPlayingClass('.main-playlist');
-        button.classList.add('playing');
-    });
-});
+// ── Track card clicks ─────────────────────────────────────────
+document.querySelectorAll('.main-playlist .track-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const id = card.dataset.track;
+        if (!audios.main[id]) return;
 
-// Add event listeners to ambient playlist buttons (highlight selected)
-document.querySelectorAll('.ambient-playlist .playlist-buttons button').forEach(button => {
-    button.addEventListener('click', () => {
-        clearPlayingClass('.ambient-playlist');
-        button.classList.add('playing');
-    });
-});
-
-
-// Main playlist button click
-document.querySelector('.main-playlist .playlist-buttons').addEventListener('click', (e) => {
-    const id = e.target.textContent.toLowerCase().replaceAll(' ', '');
-    if (audios.main[id]) {
-        Object.values(audios.main).forEach(audio => audio.pause());
+        Object.values(audios.main).forEach(a => a.pause());
         audios.main[id].play();
         lastMain = id;
-        updateVideoPlayback();
+
+        document.querySelectorAll('.main-playlist .track-card')
+            .forEach(c => c.classList.remove('playing'));
+        card.classList.add('playing');
+
         togglePlayState(mainPlayButton, true);
-    }
+        updateVideoPlayback();
+    });
 });
 
-// Ambient playlist button click
-document.querySelector('.ambient-playlist .playlist-buttons').addEventListener('click', (e) => {
-    const id = e.target.textContent.toLowerCase().replaceAll(' ', '');
-    if (audios.ambient[id]) {
-        Object.values(audios.ambient).forEach(audio => audio.pause());
+document.querySelectorAll('.ambient-playlist .track-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const id = card.dataset.track;
+        if (!audios.ambient[id]) return;
+
+        Object.values(audios.ambient).forEach(a => a.pause());
         audios.ambient[id].play();
         lastAmbient = id;
-        updateVideoPlayback();
+
+        document.querySelectorAll('.ambient-playlist .track-card')
+            .forEach(c => c.classList.remove('playing'));
+        card.classList.add('playing');
+
         togglePlayState(ambientPlayButton, true);
-    }
+        updateVideoPlayback();
+    });
 });
 
 
-// Volume control for main playlist
+// ── Volume controls ───────────────────────────────────────────
 document.getElementById('main-volume').addEventListener('input', (e) => {
     if (lastMain && audios.main[lastMain]) {
         audios.main[lastMain].volume = parseFloat(e.target.value);
     }
 });
 
-// Volume control for ambient playlist
 document.getElementById('ambient-volume').addEventListener('input', (e) => {
     if (lastAmbient && audios.ambient[lastAmbient]) {
         audios.ambient[lastAmbient].volume = parseFloat(e.target.value);
@@ -91,7 +104,7 @@ document.getElementById('ambient-volume').addEventListener('input', (e) => {
 });
 
 
-// Global Play
+// ── Global Play / Pause ───────────────────────────────────────
 document.getElementById('global-play').addEventListener('click', () => {
     if (lastMain) {
         audios.main[lastMain].play();
@@ -104,7 +117,6 @@ document.getElementById('global-play').addEventListener('click', () => {
     updateVideoPlayback();
 });
 
-// Global Pause
 document.getElementById('global-pause').addEventListener('click', () => {
     if (lastMain) {
         audios.main[lastMain].pause();
@@ -117,7 +129,8 @@ document.getElementById('global-pause').addEventListener('click', () => {
     updateVideoPlayback();
 });
 
-// Main controls
+
+// ── Section Play / Pause ──────────────────────────────────────
 document.getElementById('main-play').addEventListener('click', () => {
     if (lastMain) {
         audios.main[lastMain].play();
@@ -134,7 +147,6 @@ document.getElementById('main-pause').addEventListener('click', () => {
     }
 });
 
-// Ambient controls
 document.getElementById('ambient-play').addEventListener('click', () => {
     if (lastAmbient) {
         audios.ambient[lastAmbient].play();
@@ -152,22 +164,19 @@ document.getElementById('ambient-pause').addEventListener('click', () => {
 });
 
 
-// Utility to clear 'playing' class from all buttons in a section
-function clearPlayingClass(sectionSelector) {
-    document.querySelectorAll(sectionSelector + ' .playlist-buttons button').forEach(btn => {
-        btn.classList.remove('playing');
-    });
-}
-
-// Update video playback based on whether any audio is playing
+// ── Utilities ─────────────────────────────────────────────────
 function updateVideoPlayback() {
-    const isMainPlaying = lastMain && !audios.main[lastMain].paused;
+    if (videoManuallyPaused) return;
+
+    const isMainPlaying    = lastMain    && !audios.main[lastMain].paused;
     const isAmbientPlaying = lastAmbient && !audios.ambient[lastAmbient].paused;
 
     if (isMainPlaying || isAmbientPlaying) {
         relaxingVideo.play();
+        videoToggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
     } else {
         relaxingVideo.pause();
+        videoToggleBtn.innerHTML = '<i class="fas fa-play"></i>';
     }
 }
 
