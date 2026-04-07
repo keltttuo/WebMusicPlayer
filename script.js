@@ -20,6 +20,34 @@ const ambientPlayButton = document.getElementById('ambient-play');
 Object.values(audios.main).concat(Object.values(audios.ambient))
     .forEach(audio => audio.loop = true);
 
+// ── Audio error handling ──────────────────────────────────────
+function showAudioError(message) {
+    const existing = document.getElementById('audio-error');
+    if (existing) existing.remove();
+
+    const banner = document.createElement('div');
+    banner.id = 'audio-error';
+    banner.textContent = message;
+    banner.style.cssText = [
+        'position:fixed', 'bottom:1.5rem', 'left:50%',
+        'transform:translateX(-50%)',
+        'background:#e53935', 'color:#fff',
+        'padding:0.6rem 1.25rem', 'border-radius:8px',
+        'font-size:0.85rem', 'z-index:999',
+        'box-shadow:0 4px 12px rgba(0,0,0,0.3)'
+    ].join(';');
+
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 4000);
+}
+
+Object.entries(audios.main).concat(Object.entries(audios.ambient))
+    .forEach(([name, audio]) => {
+        audio.addEventListener('error', () => {
+            showAudioError(`Could not load track "${name}". Check that the audio file exists.`);
+        });
+    });
+
 // ── Video setup ───────────────────────────────────────────────
 const relaxingVideo = document.getElementById('bg-video');
 relaxingVideo.pause();
